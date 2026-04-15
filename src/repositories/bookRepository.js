@@ -1,12 +1,11 @@
-import {books} from "../store/inMemoryStore.js";
-
+import { books } from "../store/inMemoryStore.js";
 
 const getAll = async () => {
   return books;
 };
-const create = async (book) => {
-  books.push(book);
+const createBook = async (book) => {
+  await books.push(book);
   return book;
 };
 
-export { getAll, create };
+export { getAll, createBook };

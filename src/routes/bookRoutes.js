@@ -1,11 +1,11 @@
 import express from 'express';
-import {getBooks,addBook} from '../controllers/bookController.js';
+import * as controller from '../controllers/bookController.js';
 import createBookSchema from '../../validators/bookValidator.js';
 import validateBody from '../middleware/validate.js';
 
 const router =  express.Router();
 
-router.get('/', getBooks);
-router.post('/',validateBody(createBookSchema), addBook);
+router.get('/', controller.getBooks);
+router.post('/',validateBody(createBookSchema), controller.createBook);
 
 export default router;

@@ -8,8 +8,11 @@ const validateBody = (schema) => {
     });
 
     if (error) {
-      const message = error.details.map((e) => e.message).join(",");
-      return next(new appError(message, 400));
+      const message =error.details.map(detail => detail.message).join(",")
+    return res.status(400).json({
+      success:false,
+      message
+    })
     }
     req.body = value;
     next();
