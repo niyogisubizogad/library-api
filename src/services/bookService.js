@@ -43,5 +43,27 @@ const book = repository.findById(id);
   };
   return await repository.update(id, updatedBook);
 };
+const deleteBookById = async (id)=>{
+  let book = await repository.remove(id);
+  if(!book){
+    throw new appError("Book Not Found",404);
+  }
+  return book;
+ 
+}
+//get by id 
+const getBook = async (id)=>{
+  const book = await repository.findById(id);
+  if(!book){
+    return {
+      success:false,
+      message: "Book Not Found"
+    }
+  }
+  return {
+    success:true,
+    data:book
+  };
+}
 
-export { getAllBooks, createBook, updateBook };
+export { getAllBooks,createBook,updateBook,deleteBookById,getBook };

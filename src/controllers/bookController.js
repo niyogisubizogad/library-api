@@ -37,4 +37,44 @@ const updateBook = async (req, res, next) => {
     next(err);
   }
 };
-export { getBooks, createBook, updateBook };
+const deleteBook = async (req,res,next)=>{
+  try{
+  const {id} = req.params;
+  const deletedBook = await service.deleteBookById(id);
+
+  res.status(204).json({
+    success:true,
+    data:deletedBook,
+
+  });
+  if(!deletedBook){
+    res.status(404).json({
+      success:false,
+      message:"Book Not Found"
+    })
+  }
+}
+catch(err){
+  next(err)
+}
+};
+const getBookById = async(req,res,next)=>{
+  try{
+  const id = req.params?.id;
+   if (!id) {
+    return res.status(400).json({
+      success: false,
+      message: "ID is required",
+    });
+  }
+  const result = await service.getBook(id);
+  if(!result.success){
+    return res.status(404).json(result)
+  }
+  res.status(200).json(result);}
+  catch(err){
+    next(err);
+  }
+
+}
+export { getBooks, createBook, updateBook,deleteBook,getBookById };

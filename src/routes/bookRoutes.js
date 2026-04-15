@@ -7,8 +7,10 @@ import  updateBookMiddlewares from "../middleware/validateBookUpdate.js";
 const router = express.Router();
 
 router.get("/", controller.getBooks);
+router.get("/:id", controller.getBookById);
 router.post("/", validateBody(createBookSchema), controller.createBook);
 router.put("/:id", updateBookMiddlewares, controller.updateBook);
+router.delete("/:id", controller.deleteBook)
 
 
 export default router;
