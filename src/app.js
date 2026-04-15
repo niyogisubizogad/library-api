@@ -7,8 +7,5 @@ app.use(express.json())
 app.use('/api/books', bookRoutes);
 
 
-app.get('/test', (req, res) => {
-  res.send('server works');
-});
 
 export default app;

@@ -1,11 +1,26 @@
-import { getAll } from "../repositories/bookRepository.js";
+import { v4 as uuidv4 } from 'uuid';
+import { getAll,create } from "../repositories/bookRepository.js";
 
+//creating new book
+const createBook = async({title,author,isbn,genre,totalCopies})=>{
+  const newBook = {
+    id:uuidv4(),
+    title,
+    author,
+    isbn,
+    genre,
+    totalCopies,
+    availableCopies:totalCopies,
+    createdAt:new Date().toISOString()
+  }
+  return await create(newBook);
 
+}
+//fetching all books
 const getAllBooks = async (filters) => {
   const { genre, available } = filters;
 
   let books = await getAll();
-  console.log(filters);
   if (genre) {
     books = books.filter(
       (book) => book.genre.toLowerCase() == genre.toLowerCase(),
@@ -16,4 +31,4 @@ const getAllBooks = async (filters) => {
   }
   return books;
 };
-export { getAllBooks };
+export { getAllBooks,createBook };
