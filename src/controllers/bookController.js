@@ -3,7 +3,7 @@ import * as service from "../services/bookService.js";
 const createBook = async (req, res, next) => {
   try {
     const book = await service.createBook(req.body);
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       data: book,
     });
@@ -11,10 +11,11 @@ const createBook = async (req, res, next) => {
     next(err);
   }
 };
+
 const getBooks = async (req, res, next) => {
   try {
     const books = await service.getAllBooks(req.query);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: books,
     });
@@ -22,4 +23,20 @@ const getBooks = async (req, res, next) => {
     next(err);
   }
 };
-export { getBooks, createBook };
+
+const updateBook = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await updateBook(id, req.body);
+    if (!result.success) {
+      return res.status(404).json(result);
+    }
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+export { getBooks, createBook, updateBook };

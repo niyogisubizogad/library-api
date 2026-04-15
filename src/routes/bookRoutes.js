@@ -3,9 +3,9 @@ import * as controller from '../controllers/bookController.js';
 import createBookSchema from '../../validators/bookValidator.js';
 import validateBody from '../middleware/validate.js';
 
-const router =  express.Router();
+const router = express.Router();
 
 router.get('/', controller.getBooks);
 router.post('/',validateBody(createBookSchema), controller.createBook);
-
+router.put("/:id", controller.updateBook);
 export default router;

@@ -30,4 +30,26 @@ const getAllBooks = async (filters) => {
   }
   return books;
 };
-export { getAllBooks, createBook };
+
+//updating existing book by it's id
+const updateBook = async (id,data) =>{
+  let book = await findById(id);
+  if(!book){
+   //throw new appError("book not found",404)
+   return {
+       success:false,
+       message:"Book Not Found"
+   }
+  }
+  if(data.totalCopies !== undefined){
+      const diff =data.totalCopies - book.totalCopies;
+      book.availableCopies += diff;
+  }
+   const updatedBook = {
+    ...book,
+    ...data
+  };
+  return await repository.update(id, updatedBook);
+}
+
+export { getAllBooks,createBook,updateBook };
