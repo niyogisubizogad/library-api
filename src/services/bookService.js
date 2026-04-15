@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getAll,create } from "../repositories/bookRepository.js";
+import { getAll,create,update, findById } from "../repositories/bookRepository.js";
+import appError from '../utils/appError.js';
 
 //creating new book
 const createBook = async({title,author,isbn,genre,totalCopies})=>{
@@ -31,4 +32,21 @@ const getAllBooks = async (filters) => {
   }
   return books;
 };
-export { getAllBooks,createBook };
+//updating existing book by it's id
+const updateBook = async (id,data) =>{
+  let book = await findById(id);
+  if(!book){
+   throw new appError("book not found",404)
+  }
+  if(data.totalCopies !== undefined){
+      const diff =data.totalCopies - book.totalCopies;
+      book.availableCopies += diff;
+  }
+   const updatedBook = {
+    ...book,
+    ...data
+  };
+  return await update({id, updatedBook})
+}
+
+export { getAllBooks,createBook,updateBook };
