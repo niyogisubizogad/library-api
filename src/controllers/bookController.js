@@ -2,7 +2,9 @@ import {
   getAllBooks,
   createBook,
   updateBook,
+  deleteBookById
 } from "../services/bookService.js";
+import appError from "../utils/appError.js";
 
 const addBook = async (req, res, next) => {
   try {
@@ -52,6 +54,27 @@ const updatingBook = async (req, res, next) => {
 catch(err){
   next(err);
 }
+};
+const deleteBook = async (req,res,next)=>{
+  try{
+  const {id} = req.params;
+  const deletedBook = await deleteBookById(id);
+
+  res.status(204).json({
+    success:true,
+    data:deletedBook,
+
+  });
+  if(!deletedBook){
+    res.status(404).json({
+      success:false,
+      message:"Book Not Found"
+    })
+  }
+}
+catch(err){
+  next(err)
+}
 
 };
-export { getBooks, addBook,updatingBook };
+export { getBooks, addBook,updatingBook,deleteBook };

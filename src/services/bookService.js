@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getAll,create,update, findById } from "../repositories/bookRepository.js";
+import { getAll,create,update, findById,remove } from "../repositories/bookRepository.js";
 import appError from '../utils/appError.js';
 
 //creating new book
@@ -48,5 +48,14 @@ const updateBook = async (id,data) =>{
   };
   return await update({id, updatedBook})
 }
+//deleting book by it's id
+const deleteBookById = async (id)=>{
+  let book = await remove(id);
+  if(!book){
+    throw new appError("Book Not Found",404);
+  }
+  return book;
+ 
+}
 
-export { getAllBooks,createBook,updateBook };
+export { getAllBooks,createBook,updateBook,deleteBookById };
