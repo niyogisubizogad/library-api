@@ -31,13 +31,8 @@ const getAllBooks = async (filters) => {
 };
 
 const updateBook = async (id, data) => {
-  let book = await findById(id);
-  if (!book) {
-    return {
-      success: false,
-      message: "Book Not Found",
-    };
-  }
+const book = repository.findById(id);
+
   if (data.totalCopies !== undefined) {
     const diff = data.totalCopies - book.totalCopies;
     book.availableCopies += diff;
