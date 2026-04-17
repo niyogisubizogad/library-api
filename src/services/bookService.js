@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import * as repository from "../repositories/bookRepository.js";
 
-//creating new book
 const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
   const newBook = {
     id: uuidv4(),
@@ -15,7 +14,7 @@ const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
   };
   return await repository.createBook(newBook);
 };
-//fetching all books
+
 const getAllBooks = async (filters) => {
   const { genre, available } = filters;
 
@@ -30,4 +29,19 @@ const getAllBooks = async (filters) => {
   }
   return books;
 };
-export { getAllBooks, createBook };
+
+const updateBook = async (id, data) => {
+const book = repository.findById(id);
+
+  if (data.totalCopies !== undefined) {
+    const diff = data.totalCopies - book.totalCopies;
+    book.availableCopies += diff;
+  }
+  const updatedBook = {
+    ...book,
+    ...data,
+  };
+  return await repository.update(id, updatedBook);
+};
+
+export { getAllBooks, createBook, updateBook };

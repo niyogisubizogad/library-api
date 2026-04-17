@@ -1,4 +1,3 @@
-import appError from "../utils/appError.js";
 
 const validateBody = (schema) => {
   return (req, res, next) => {
