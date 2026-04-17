@@ -22,7 +22,7 @@ const getAllBooks = async (filters) => {
   let books = await repository.getAll();
   if (genre) {
     books = books.filter(
-      (book) => book.genre.toLowerCase() == genre.toLowerCase(),
+    book => book.genre.toLowerCase() == genre.toLowerCase()
     );
   }
   if (available === true) {
@@ -32,7 +32,7 @@ const getAllBooks = async (filters) => {
 };
 
 //updating existing book by it's id
-const updateBook = async (id,data) =>{
+const updateBook = async (id, data) => {
   let book = await findById(id);
   if(!book){
    //throw new appError("book not found",404)
@@ -41,15 +41,15 @@ const updateBook = async (id,data) =>{
        message:"Book Not Found"
    }
   }
-  if(data.totalCopies !== undefined){
-      const diff =data.totalCopies - book.totalCopies;
-      book.availableCopies += diff;
+  if (data.totalCopies !== undefined) {
+    const diff = data.totalCopies - book.totalCopies;
+    book.availableCopies += diff;
   }
-   const updatedBook = {
+  const updatedBook = {
     ...book,
-    ...data
+    ...data,
   };
   return await repository.update(id, updatedBook);
 }
 
-export { getAllBooks,createBook,updateBook };
+export { getAllBooks, createBook, updateBook };
