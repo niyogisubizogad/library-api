@@ -16,4 +16,11 @@ const update = async (id, updateBook) => {
   
   return books[index];
 };
-export { getAll, createBook, update,findById };
+const remove = async (id)=>{
+  const index = books.findIndex(b => b.id === id);
+  if(index < 0) return null;
+  const deletedBook = books.splice(index,1);
+  return deletedBook[0];
+}
+
+export { getAll, createBook ,update,findById,remove};

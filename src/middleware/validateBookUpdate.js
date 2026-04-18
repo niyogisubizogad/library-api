@@ -31,7 +31,7 @@ const checkAllowedFields = (req, res, next) => {
   }
   const requestKeys = Object.keys(req.body);
   const invalidField = requestKeys.filter(field => !allowedFields.includes(field));
-  if(invalidField){
+  if(invalidField.length > 0){
      return res.status(400).json({
       success: false,
       message: ` '${invalidField}' field is not allowed`
