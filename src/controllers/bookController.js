@@ -42,17 +42,19 @@ const deleteBook = async (req,res,next)=>{
   const {id} = req.params;
   const deletedBook = await service.deleteBookById(id);
 
-  res.status(200).json({
-    success:true,
-    data:deletedBook,
-
-  });
-  if(!deletedBook){
-    res.status(404).json({
+   if(!deletedBook){
+   return res.status(404).json({
       success:false,
       message:"Book Not Found"
     })
   }
+
+  return res.status(200).json({
+    success:true,
+    data:`Book with id: ${id} is deleted in our records`
+
+  });
+ 
 }
 catch(err){
   next(err)
