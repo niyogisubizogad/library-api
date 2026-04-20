@@ -4,4 +4,8 @@ const createUser = async (user) =>{
      await users.push(user);
     return user;
 }
-export {createUser}
+const findUser = async (email) =>{
+const user = users.find(user => user.email === email);
+   return user;
+}
+export {createUser,findUser}

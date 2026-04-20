@@ -10,16 +10,25 @@ let books = [
     createdAt: "2024-01-15T08:00:00.000Z",
   },
   {
-    id:"d4e5f6",
+    id: "d4e5f6",
     title: "Refactoring: Improving the Design of Existing Code",
     author: "Martin Fowler",
     isbn: "9780201485677",
     genre: "Software Engineering",
     totalCopies: 4,
-    availableCopies:4,
-    createdAt:"2026-04-15T11:01:31.146Z",
+    availableCopies: 4,
+    createdAt: "2026-04-15T11:01:31.146Z",
   },
 ];
-const users= []
+const users = [
+  {
+    id: "u7h8i9",
+    name: "Alice Uwimana",
+    email: "alice@example.com",
+    password: "securepassword123",
+    role: "member",
+    createdAt: "2024-01-16T10:00:00.000Z",
+  },
+];
 
-export { books,users };
+export { books, users };
