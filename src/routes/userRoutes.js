@@ -7,6 +7,6 @@ import emailTaken from '../middleware/validateUserAccount.js';
 
 const router = express.Router();
 
-router.post('/',emailTaken, validate(UserSchema), createUser);
+router.post('/register',emailTaken, validate(UserSchema), createUser);
 
 export default router;
