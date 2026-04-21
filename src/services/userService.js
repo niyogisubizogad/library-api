@@ -21,4 +21,7 @@ const login = async ({email}) => {
   const user = await userRepository.findUser(email);
   return user;
 };
-export { createNewUser,login};
+const findUserById = async (id)=>{
+  return await userRepository.findById(id);''
+}
+export { createNewUser,login,findUserById};

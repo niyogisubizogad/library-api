@@ -35,4 +35,5 @@ const validateUserCredential = async (req, res, next) => {
   next();
 };
 
+
 export { emailTaken, validateUserCredential };
