@@ -30,5 +30,6 @@ const users = [
     createdAt: "2024-01-16T10:00:00.000Z",
   },
 ];
+const loans =[]
 
-export { books, users };
+export { books, users,loans };
