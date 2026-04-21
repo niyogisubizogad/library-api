@@ -8,4 +8,8 @@ const findUser = async (email) =>{
 const user = users.find(user => user.email === email);
    return user;
 }
-export {createUser,findUser}
+const findById = async(id)=>{
+   const user = users.find(user => user.id === id);
+   return user;
+}
+export {createUser,findUser,findById}
