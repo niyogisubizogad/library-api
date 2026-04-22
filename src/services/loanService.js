@@ -34,5 +34,27 @@ const createLoan = async (loan) => {
 
   return await loanRepository.createLoan(newLoan);
 };
+const returnBook = async (id) => {
 
-export { createLoan };
+  const loan = await loanRepository.findById(id);
+
+  if (!loan) {
+    throw new appError("Loan not found", 404);
+  }
+  const book = await bookRepository.findById(loan.bookId);
+
+
+  if (loan.returnedAt === null) {
+    loan.returnedAt = new Date().toISOString();
+
+     book.availableCopies++;
+     bookRepository.update(book);
+    return loan;
+  } else {
+    throw new appError("This loan has already been returned", 409);
+  }
+  
+  return loan;
+};
+
+export { createLoan, returnBook };

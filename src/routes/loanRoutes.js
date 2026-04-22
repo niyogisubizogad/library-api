@@ -1,8 +1,9 @@
 import express from 'express';
-import createLoans from '../controllers/loanController.js';
+import * as loanController from '../controllers/loanController.js';
 
 const router = express.Router();
 
-router.post('/', createLoans);
+router.post('/', loanController.createLoans);
+router.patch('/:id/return', loanController.returnBook);
 
 export default router;
