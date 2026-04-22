@@ -30,6 +30,15 @@ const users = [
     createdAt: "2024-01-16T10:00:00.000Z",
   },
 ];
-const loans =[]
+const loans = [
+  {
+    id: "l1m2n3",
+    bookId: "a1b2c3",
+    userId: "u7h8i9",
+    borrowedAt: "2024-01-16T11:00:00.000Z",
+    dueDate: "2024-02-16T00:00:00.000Z",
+    returnedAt: null,
+  },
+];
 
-export { books, users,loans };
+export { books, users, loans };
