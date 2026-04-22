@@ -42,19 +42,19 @@ const returnBook = async (id) => {
   }
   const book = await bookRepository.findById(loan.bookId);
 
-  if (loan.returnedAt === null) {
-    loan.returnedAt = new Date().toISOString();
-
-    book.availableCopies++;
-    bookRepository.update(book);
-    return loan;
-  } else {
+  if (loan.returnedAt !== null) {
     throw new appError("This loan has already been returned", 409);
   }
+  loan.returnedAt = new Date().toISOString();
+  //TODO:Update book
 
-  return loan;
+  // TODO:Update loan then return it
+
+  // TODO: console log all loans to see if the 
+  return updatedLoan;
 };
 
+// TODO: remove this method for now
 const getLoanByUser = async (id) => {
   const user = await userRepository.findById(id);
   if (!user) {
@@ -62,14 +62,13 @@ const getLoanByUser = async (id) => {
   }
 
   const loan = await loanRepository.findUserLoanById(id);
-  if(!loan){
+  if (!loan) {
     return [];
   }
 
   const book = await bookRepository.findById(loan.bookId);
 
   if (user.id === loan.userId) {
-  
     const userLoan = [
       {
         id: loan.id,
