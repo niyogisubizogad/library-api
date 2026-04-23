@@ -34,8 +34,8 @@ const createLoan = async (loan) => {
 
   return await loanRepository.createLoan(newLoan);
 };
-const returnBook = async (id) => {
 
+const returnBook = async (id) => {
   const loan = await loanRepository.findById(id);
 
   if (!loan) {
@@ -43,18 +43,38 @@ const returnBook = async (id) => {
   }
   const book = await bookRepository.findById(loan.bookId);
 
-
-  if (loan.returnedAt === null) {
-    loan.returnedAt = new Date().toISOString();
-
-     book.availableCopies++;
-     bookRepository.update(book);
-    return loan;
-  } else {
+  if (loan.returnedAt !== null) {
     throw new appError("This loan has already been returned", 409);
   }
-  
+ 
+book.availableCopies++;
+bookRepository.update(book);
+
+ loan.returnedAt = new Date().toISOString();
+ loanRepository.update(loan);
   return loan;
 };
+const getLoanByUser = async (id) => {
 
-export { createLoan, returnBook };
+  const loans = await loanRepository.findUserLoan(id);
+
+  const userLoans = await Promise.all(
+    loans.map(async (loan) => {
+      const book = await bookRepository.findById(loan.bookId);
+      const userLoan = {
+        id: loan.id,
+        borrowedAt: loan.borrowedAt,
+        dueDate: loan.dueDate,
+        returnedAt: loan.returnedAt,
+        book: {
+          id: book.id,
+          title: book.title,
+          author: book.author,
+        },
+      };
+      return userLoan;
+    }),
+  );
+  return userLoans;
+};
+export { createLoan, returnBook, getLoanByUser };
