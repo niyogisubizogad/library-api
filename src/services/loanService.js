@@ -35,7 +35,6 @@ const createLoan = async (loan) => {
   return await loanRepository.createLoan(newLoan);
 };
 
-
 const returnBook = async (id) => {
   const loan = await loanRepository.findById(id);
 
@@ -55,7 +54,27 @@ bookRepository.update(book);
  loanRepository.update(loan);
   return loan;
 };
+const getLoanByUser = async (id) => {
 
+  const loans = await loanRepository.findUserLoan(id);
 
-
-export { createLoan, returnBook };
+  const userLoans = await Promise.all(
+    loans.map(async (loan) => {
+      const book = await bookRepository.findById(loan.bookId);
+      const userLoan = {
+        id: loan.id,
+        borrowedAt: loan.borrowedAt,
+        dueDate: loan.dueDate,
+        returnedAt: loan.returnedAt,
+        book: {
+          id: book.id,
+          title: book.title,
+          author: book.author,
+        },
+      };
+      return userLoan;
+    }),
+  );
+  return userLoans;
+};
+export { createLoan, returnBook, getLoanByUser };

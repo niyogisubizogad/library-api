@@ -35,5 +35,22 @@ const returnBook = async (req,res,next)=>{
    })
   }}
 }
+const returnUserLoan = async(req,res,next) =>{
+    try{
+    const {userId} = req.params;
+    const userLoan = await loanService.getLoanByUser(userId);
 
-export{createLoans, returnBook} ;
+    return res.status(200).json({
+        success:true,
+        data:userLoan
+    })
+
+    }catch(err){
+   if(err instanceof appError){
+   return res.status(err.statusCode).json({
+    success:false,
+    message:err.message
+   })
+  }}
+}
+export{createLoans, returnBook, returnUserLoan} ;

@@ -15,5 +15,10 @@ const update = async (loan) => {
 
   return loan[index];
 };
+const findUserLoan = (userId)=>{
+  const loan = loans.filter(loan =>loan.userId === userId);
+  return loan;
+}
 
-export { createLoan, findById, update };
+export { createLoan,findById, findUserLoan,update };
+
