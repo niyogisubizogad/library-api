@@ -1,10 +1,7 @@
 import { Book } from '../models/index.js';
 
-export const findAll = ({ genre, available } = {}) => {
-  const where = {};
-  if (genre) where.genre = genre;
-  if (available === 'true') where.availableCopies = { [Symbol.for('gt')]: 0 };
-  return Book.findAll({ where });
+export const findAll = () => {
+  return Book.findAll();
 };
 
 export const findById = (id) => Book.findByPk(id);

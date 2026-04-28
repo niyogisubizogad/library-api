@@ -12,13 +12,13 @@ const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
     availableCopies: totalCopies,
    createdAt: new Date().toISOString(),
   };
-  return await repository.createBook(newBook);
+  return await repository.create(newBook);
 };
 
 const getAllBooks = async (filters) => {
-  const { genre, available } = filters;
+const { genre, available } = filters;
 
-  let books = await repository.getAll();
+  let books = await repository.findAll();
   if (genre) {
     books = books.filter(
       (book) => book.genre.toLowerCase() == genre.toLowerCase(),

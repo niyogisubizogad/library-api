@@ -2,11 +2,9 @@ import * as loanRepository from "../repositories/loanRepository.js";
 import * as bookRepository from "../repositories/bookRepository.js";
 import * as userRepository from "../repositories/userRepository.js";
 import appError from "../utils/appError.js";
-
 import { v4 as uuidv4 } from "uuid";
 
-const createLoan = async (loan) => {
-  const { bookId, userId, dueDate } = loan;
+const createLoan = async ({ bookId, userId, dueDate }) => {
 
   const user = await userRepository.findById(userId);
   const book = await bookRepository.findById(bookId);
@@ -29,35 +27,37 @@ const createLoan = async (loan) => {
     returnedAt: null,
   };
 
-  book.availableCopies--;
-  bookRepository.update(book);
+  await book.update({
+    availableCopies: book.availableCopies - 1
+  });
 
-  return await loanRepository.createLoan(newLoan);
+  return await loanRepository.create(newLoan);
 };
 
+
 const returnBook = async (id) => {
-  const {dataValues} = await loanRepository.findById(id);
-console.log(dataValues)
-  if (!dataValues) {
+  const loan = await loanRepository.findById(id);
+  if (!loan) {
     throw new appError("Loan not found", 404);
   }
-  const book = await bookRepository.findById(dataValues.bookId);
-console.log(book.dataValues);
+  const book = await bookRepository.findById(loan.bookId);
 
-  if (dataValues.returnedAt !== null) {
+  if (loan.returnedAt !== null) {
     throw new appError("This loan has already been returned", 409);
   }
  
-book.dataValues.availableCopies++;
-await bookRepository.update(book.dataValues);
+await book.update({
+  availableCopies: book.availableCopies +1
+});
 
- dataValues.returnedAt = new Date().toISOString();
- await loanRepository.updateLoan(dataValues);
-  return dataValues;
+ await loan.update({
+  returnedAt: new Date().toISOString(),
+ })
+ return loan;
 };
 const getLoanByUser = async (id) => {
 
-  const loans = await loanRepository.findUserLoan(id);
+  const loans = await loanRepository.findByUser(id);
 
   const userLoans = await Promise.all(
     loans.map(async (loan) => {
