@@ -1,24 +1,22 @@
-import { loans } from "../store/inMemoryStore.js";
+import { Loan, Book } from '../models/index.js';
 
-const createLoan = async (newLoan) => {
-  loans.push(newLoan);
-  return newLoan;
+export const create = (data) => Loan.create(data);
+
+export const findById = (id) => Loan.findByPk(id);
+
+export const update = async (id, data) => {
+  const loan = await Loan.findByPk(id);
+  if (!loan) return null;
+  return loan.update(data);
 };
-const findById = async (id) => {
-  const loan = loans.find((loan) => loan.id === id);
-  return loan;
-};
 
-const update = async (loan) => {
-  const index = loans.findIndex((l) => l.id === loan.id);
-  loans[index] = loan;
-
-  return loan[index];
-};
-const findUserLoan = (userId)=>{
-  const loan = loans.filter(loan =>loan.userId === userId);
-  return loan;
-}
-
-export { createLoan,findById, findUserLoan,update };
-
+export const findByUser = (userId) =>
+  Loan.findAll({
+    where: { userId },
+    include: [
+      {
+        model: Book,
+        attributes: ['id', 'title', 'author'],
+      },
+    ],
+  });

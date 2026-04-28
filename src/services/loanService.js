@@ -36,23 +36,24 @@ const createLoan = async (loan) => {
 };
 
 const returnBook = async (id) => {
-  const loan = await loanRepository.findById(id);
-
-  if (!loan) {
+  const {dataValues} = await loanRepository.findById(id);
+console.log(dataValues)
+  if (!dataValues) {
     throw new appError("Loan not found", 404);
   }
-  const book = await bookRepository.findById(loan.bookId);
+  const book = await bookRepository.findById(dataValues.bookId);
+console.log(book.dataValues);
 
-  if (loan.returnedAt !== null) {
+  if (dataValues.returnedAt !== null) {
     throw new appError("This loan has already been returned", 409);
   }
  
-book.availableCopies++;
-bookRepository.update(book);
+book.dataValues.availableCopies++;
+await bookRepository.update(book.dataValues);
 
- loan.returnedAt = new Date().toISOString();
- loanRepository.update(loan);
-  return loan;
+ dataValues.returnedAt = new Date().toISOString();
+ await loanRepository.updateLoan(dataValues);
+  return dataValues;
 };
 const getLoanByUser = async (id) => {
 
@@ -60,7 +61,8 @@ const getLoanByUser = async (id) => {
 
   const userLoans = await Promise.all(
     loans.map(async (loan) => {
-      const book = await bookRepository.findById(loan.bookId);
+      const book = await bookRepository.findById(loan.dataValues.bookId);
+      
       const userLoan = {
         id: loan.id,
         borrowedAt: loan.borrowedAt,

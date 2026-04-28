@@ -3,14 +3,14 @@ import * as repository from "../repositories/bookRepository.js";
 
 const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
   const newBook = {
-    id: uuidv4(),
+  //  id: uuidv4(),
     title,
     author,
     isbn,
     genre,
     totalCopies,
     availableCopies: totalCopies,
-    createdAt: new Date().toISOString(),
+   createdAt: new Date().toISOString(),
   };
   return await repository.createBook(newBook);
 };
@@ -51,7 +51,6 @@ const deleteBookById = async (id)=>{
   return book;
  
 }
-//get by id 
 const getBook = async (id)=>{
   const book = await repository.findById(id);
   if(!book){

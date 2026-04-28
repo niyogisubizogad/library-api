@@ -1,26 +1,25 @@
-import { books } from "../store/inMemoryStore.js";
-const findById = async (id)=>{
-  return await books.find(book => book.id == id)
-}
-const getAll = async () => {
-  return books;
-};
-const createBook = async (book) => {
-  await books.push(book);
-  return book;
-};
-const update = async (id, updateBook) => {
+import { Book } from '../models/index.js';
 
-  const index = books.findIndex((b) => b.id === id);
-  books[index] = updateBook;
-  
-  return books[index];
+export const findAll = ({ genre, available } = {}) => {
+  const where = {};
+  if (genre) where.genre = genre;
+  if (available === 'true') where.availableCopies = { [Symbol.for('gt')]: 0 };
+  return Book.findAll({ where });
 };
-const remove = async (id)=>{
-  const index = books.findIndex(b => b.id === id);
-  if(index < 0) return null;
-  const deletedBook = books.splice(index,1);
-  return deletedBook[0];
-}
 
-export { getAll, createBook ,update,findById,remove};
+export const findById = (id) => Book.findByPk(id);
+
+export const create = (data) => Book.create(data);
+
+export const update = async (id, data) => {
+  const book = await Book.findByPk(id);
+  if (!book) return null;
+  return book.update(data);
+};
+
+export const remove = async (id) => {
+  const book = await Book.findByPk(id);
+  if (!book) return false;
+  await book.destroy();
+  return true;
+};

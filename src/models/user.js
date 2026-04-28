@@ -1,34 +1,26 @@
 export default (sequelize, DataTypes) => {
-  return sequelize.define('Book', {
+  return sequelize.define('User', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    title: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    isbn: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    genre: {
+    passwordHash: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    totalCopies: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    availableCopies: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    role: {
+      type: DataTypes.ENUM('member', 'admin'),
+      defaultValue: 'member',
     },
   });
 };
