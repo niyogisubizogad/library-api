@@ -1,11 +1,11 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const config = require("../config/database");
-const defineBook = require("./Book");
-const defineUser = require("./User");
-const defineLoan = require("./Loan");
+import { Sequelize, DataTypes } from "sequelize";
+import database from "../config/database.js";
+import defineBook from "./book.js";
+import defineUser from "./user.js";
+import defineLoan from "./loan.js";
 
 const env = process.env.NODE_ENV || "development";
-const dbConfig = config[env];
+const dbConfig = database[env];
 
 let sequelize;
 
@@ -33,9 +33,4 @@ Book.hasMany(Loan, { foreignKey: "bookId" });
 Loan.belongsTo(Book, { foreignKey: "bookId" });
 
 // Export
-module.exports = {
-  sequelize,
-  Book,
-  User,
-  Loan,
-};
+export { sequelize, Book, User, Loan };
