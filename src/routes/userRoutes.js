@@ -4,6 +4,7 @@ import * as userController from '../controllers/userController.js';
 import UserSchema from '../validators/userValidator.js';
 import validate from '../middleware/validate.js';
 import { emailTaken, validateUserCredential} from '../middleware/validateUserAccount.js';
+import { verifyJWT } from '../middleware/verifyJWT.js';
 
 
 const router = express.Router();

@@ -1,22 +1,14 @@
-
 import jwt from "jsonwebtoken";
 
 const signJWT = (user) => {
-  const { passwordHash,createdAt } = user;
-  
-  //=======
-  console.log(user);
-  console.log(passwordHash);
-  console.log(createdAt);
-  //=======
+  const { passwordHash, createdAt, ...remainingUserFields } = user.dataValues;
 
-  const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
+  const token = jwt.sign(remainingUserFields, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
 
-  //=============
-  console.log(token)
-  //===============
-  
-  return {...user,token};
+  const userDataWithToken = { ...remainingUserFields, token };
+  return userDataWithToken;
 };
 
 export { signJWT };
