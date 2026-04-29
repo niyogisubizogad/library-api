@@ -33,7 +33,6 @@ const password_match = await bcrypt.compare(password.trim(), passwordHash);
       message: "Invalid password",
     });
   }
-
   next();
 };
 
