@@ -22,15 +22,10 @@ const createUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    const { id, name, email, role } = await userService.login(req.body);
+    const user = await userService.login(req.body);
     return res.status(200).json({
       success: true,
-      data: {
-        id,
-        name,
-        email,
-        role,
-      },
+      data: user
     });
   } catch (err) {
     next(err);
