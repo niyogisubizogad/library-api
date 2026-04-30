@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import * as repository from "../repositories/bookRepository.js";
+import appError from "../utils/appError.js";
+
 
 const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
   const newBook = {
@@ -44,7 +46,7 @@ const book = await repository.findById(id);
   return await repository.update(id, updatedBook);
 };
 const deleteBookById = async (id)=>{
-  let book = await repository.remove(id);
+  const book = await repository.remove(id);
   if(!book){
     throw new appError("Book Not Found",404);
   }
@@ -53,16 +55,10 @@ const deleteBookById = async (id)=>{
 }
 const getBook = async (id)=>{
   const book = await repository.findById(id);
-  if(!book){
-    return {
-      success:false,
-      message: "Book Not Found"
-    }
+   if(!book){
+    throw new appError("Book Not Found",404);
   }
-  return {
-    success:true,
-    data:book
-  };
+ return book;
 }
 
 export { getAllBooks,createBook,updateBook,deleteBookById,getBook };

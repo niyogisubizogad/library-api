@@ -16,7 +16,6 @@ export const update = async (id, data) => {
 
 export const remove = async (id) => {
   const book = await Book.findByPk(id);
-  if (!book) return false;
   await book.destroy();
-  return true;
+  return book;
 };

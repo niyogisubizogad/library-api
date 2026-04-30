@@ -1,4 +1,5 @@
 import * as service from "../services/bookService.js";
+import appError from "../utils/appError.js";
 
 const createBook = async (req, res, next) => {
   try {
@@ -8,8 +9,12 @@ const createBook = async (req, res, next) => {
       data: book,
     });
   } catch (err) {
-    next(err);
-  }
+ if(err instanceof appError){
+    return res.status(err.statusCode).json({
+      success:false,
+      message:err.message
+    })
+  }  }
 };
 
 const getBooks = async (req, res, next) => {
@@ -20,8 +25,12 @@ const getBooks = async (req, res, next) => {
       data: books,
     });
   } catch (err) {
-    next(err);
-  }
+ if(err instanceof appError){
+    return res.status(err.statusCode).json({
+      success:false,
+      message:err.message
+    })
+  }  }
 };
 
 const updateBook = async (req, res, next) => {
@@ -42,13 +51,6 @@ const deleteBook = async (req,res,next)=>{
   const {id} = req.params;
   const deletedBook = await service.deleteBookById(id);
 
-   if(!deletedBook){
-   return res.status(404).json({
-      success:false,
-      message:"Book Not Found"
-    })
-  }
-
   return res.status(200).json({
     success:true,
     data:`Book with id: ${id} is deleted in our records`
@@ -57,7 +59,12 @@ const deleteBook = async (req,res,next)=>{
  
 }
 catch(err){
-  next(err)
+  if(err instanceof appError){
+    return res.status(err.statusCode).json({
+      success:false,
+      message:err.message
+    })
+  }
 }
 };
 const getBookById = async(req,res,next)=>{
@@ -75,7 +82,12 @@ const getBookById = async(req,res,next)=>{
   }
   res.status(200).json(result);}
   catch(err){
-    next(err);
+     if(err instanceof appError){
+    return res.status(err.statusCode).json({
+      success:false,
+      message:err.message
+    })
+  }
   }
 
 }

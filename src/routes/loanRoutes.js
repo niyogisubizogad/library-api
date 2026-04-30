@@ -4,9 +4,7 @@ import { verifyJWT } from '../middleware/verifyJWT.js';
 
 const router = express.Router();
 
-router.post('/',verifyJWT, loanController.createLoans);
-router.patch('/:id/return',verifyJWT, loanController.returnBook);
+router.post('/',verifyJWT, loanController.createLoans);     
 router.get("/user/:userId",verifyJWT, loanController.returnUserLoan);
-
 
 export default router;
