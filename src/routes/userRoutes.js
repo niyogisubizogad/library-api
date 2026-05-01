@@ -8,7 +8,6 @@ import { verifyJWT } from '../middleware/verifyJWT.js';
 
 
 const router = express.Router();
-
 router.post('/register',emailTaken, validate(UserSchema), userController.createUser);
 router.post('/login', validateUserCredential, userController.loginUser);
 router.get('/:id', userController.getUserById)
