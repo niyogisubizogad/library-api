@@ -1,9 +1,21 @@
-require('dotenv/config');
-
+dotenv.config({
+  path: process.env.NODE_ENV === 'test'
+    ? '.env.test'
+    : '.env',
+});
 const development = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD || null,
   database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  dialect: 'postgres',
+  logging: false,
+};
+const test = {
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD || null,
+  database: process.env.DB_NAME_TEST || process.env.DB_NAME,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   dialect: 'postgres',
@@ -21,4 +33,4 @@ const production = {
   logging: false,
 };
 
-module.exports = { development, production };
+module.exports = { development,test, production };

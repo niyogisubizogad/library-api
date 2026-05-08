@@ -16,6 +16,7 @@ app.use("/api/loans", loanRoutes);
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
+
 sequelize.authenticate()
   .then(() => console.log('Database connected successfully'))
   .catch((err) => console.error('Database connection failed:', err));

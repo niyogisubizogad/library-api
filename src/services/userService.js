@@ -18,7 +18,6 @@ const createNewUser = async ({ name, email, password }) => {
 
 const login = async ({ email }) => {
   const user = await userRepository.findByEmail(email);
-
   return await signJWT(user);
 };
 
