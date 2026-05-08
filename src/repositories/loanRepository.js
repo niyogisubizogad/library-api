@@ -1,16 +1,16 @@
 import { Loan, Book } from '../models/index.js';
 
-export const create = (data) => Loan.create(data);
+ const create = (data) => Loan.create(data);
 
-export const findById = (id) => Loan.findByPk(id);
+ const findById = (id) => Loan.findByPk(id);
 
-export const update = async (id, data) => {
+ const update = async (id, data) => {
   const loan = await Loan.findByPk(id);
   if (!loan) return null;
-  return loan.update(data);
+ return loan.update(data);
 };
 
-export const findByUser = (userId) =>
+ const findByUser = (userId) =>
   Loan.findAll({
     where: { userId },
     include: [
@@ -20,3 +20,4 @@ export const findByUser = (userId) =>
       },
     ],
   });
+  export {create, findById, update, findByUser}

@@ -43,7 +43,10 @@ const updateBook = async (req, res, next) => {
       data: result,
     });
   } catch (err) {
-    next(err);
+   return res.status(err.statusCode).json({
+      success:false,
+      message:err.message
+    })
   }
 };
 const deleteBook = async (req,res,next)=>{
