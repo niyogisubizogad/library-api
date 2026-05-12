@@ -16,11 +16,19 @@ app.use("/api/loans", loanRoutes);
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connected");
 
-sequelize.authenticate()
-  .then(() => console.log('Database connected successfully'))
-  .catch((err) => console.error('Database connection failed:', err));
+    await sequelize.sync(); 
 
+  } catch (error) {
+    console.error("DB connection failed:", error);
+  }
+};
+
+startServer();
 
 
 export default app;
