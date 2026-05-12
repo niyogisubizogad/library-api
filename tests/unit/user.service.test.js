@@ -21,10 +21,10 @@ describe("User Service", () => {
         email: "intentions@jb.com",
         password: "beiber@123",
       };
-      const data = { id: 1, ...payload, role: "member" };
+      const data = { id: 1, ...input, role: "member" };
       repository.create.mockResolvedValue(data);
 
-      const result = await service.createNewUser(payload);
+      const result = await service.createNewUser(input);
       expect(repository.create).toHaveBeenCalled();
       expect(result).toEqual(data);
     });
@@ -45,7 +45,7 @@ describe("User Service", () => {
         password: "beiber@123",
       };
       repository.findByEmail.mockResolvedValue(mockUser);
-      const result = await service.login(payload.email);
+      const result = await service.login(input.email);
       expect(repository.findByEmail).toHaveBeenCalled();
       expect(result).toHaveProperty("token");
       expect(result).not.toHaveProperty("passwordHash");

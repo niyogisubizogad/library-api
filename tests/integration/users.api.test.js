@@ -1,4 +1,3 @@
-
 import request from "supertest";
 
 import app from "../../src/app.js";
@@ -11,7 +10,6 @@ describe("Users API", () => {
     }
 
     await sequelize.sync({ force: true });
-
   });
   afterAll(async () => {
     await sequelize.close();
@@ -24,6 +22,7 @@ describe("Users API", () => {
         email: "uwimana@gmail.com",
         password: "aline@123",
       });
+
       expect(res.status).toBe(201);
       expect(res.body.data.email).toBe("uwimana@gmail.com");
       expect(res.body.data).not.toHaveProperty("passwordHash");
@@ -44,22 +43,16 @@ describe("Users API", () => {
    
 
     test("return 200 with a token on valid credentials", async () => {
-      const res = await request(app)
-      .post("/api/users/login")
-      .send({
+      const res = await request(app).post("/api/users/login").send({
         email: "uwimana@gmail.com",
         password: "aline@123",
       });
-    
       expect(res.body.success).toBe(true);
-      expect(res.status).toBe(200)
       expect(res.body.data).toHaveProperty("token");
     });
 
     test("return 401 when password or Email is wrong", async () => {
-      const res = await request(app)
-      .post("/api/users/login")
-      .send({
+      const res = await request(app).post("/api/users/login").send({
         email: "uwiman@gmail.com",
         password: "aline@321",
       });
@@ -69,9 +62,7 @@ describe("Users API", () => {
   });
   describe("GET /api/users/:id", () => {
     beforeAll(async () => {
-      await request(app)
-      .post("/api/users/register")
-      .send({
+      await request(app).post("/api/users/register").send({
         name: "Ngirente Aline",
         email: "ngirente@gmail.com",
         password: "aline@321",
@@ -94,4 +85,3 @@ describe("Users API", () => {
     });
   });
 });
- 

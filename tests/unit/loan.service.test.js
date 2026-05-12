@@ -47,7 +47,7 @@ describe("Loan Services", () => {
       const payload ={ bookId: 1, userId: 2, dueDate: new Date("2026-12-31") };
       const data = {
         id: 1,
-        ...payload,
+        ...input,
         borrowedAt: new Date().toISOString(),
         returnedAt: null,
       };
@@ -55,7 +55,7 @@ describe("Loan Services", () => {
       userRepository.findById.mockResolvedValue(mockUser)
       loanRepository.create.mockResolvedValue(data);
 
-      const result = await loanService.createLoan(payload);
+      const result = await loanService.createLoan(input);
       expect(loanRepository.create).toHaveBeenCalled();
       expect(result).toEqual(data);
     });

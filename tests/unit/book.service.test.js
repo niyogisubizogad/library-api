@@ -26,17 +26,17 @@ describe("Book Service", () => {
       totalCopies: 5,
     };
 
-    const newBook = {id:1, ...payload}
+    const newBook = {id:1, ...input}
     repository.create.mockResolvedValue(newBook);
 
-    const result = await service.createBook(payload);
+    const result = await service.createBook(input);
 
     expect(repository.create).toHaveBeenCalled();
 
     const calledData = repository.create.mock.calls[0][0];
 
-    expect(calledData.title).toBe(payload.title);
-    expect(calledData.availableCopies).toBe(payload.totalCopies);
+    expect(calledData.title).toBe(input.title);
+    expect(calledData.availableCopies).toBe(input.totalCopies);
 
     expect(result).toEqual(newBook);
   });
@@ -128,13 +128,13 @@ describe("updateBook(id, data)",()=>{
         
       }
       repository.findById.mockResolvedValue(mockBook);
-      repository.update.mockResolvedValue({...mockBook, ...payload});
+      repository.update.mockResolvedValue({...mockBook, ...input});
 
-      const result = await service.updateBook(mockBook.id, payload);
+      const result = await service.updateBook(mockBook.id, input);
       const updatedData = repository.update.mock.calls[0][1];
   
   
-      expect(updatedData.author).toBe(payload.author);
+      expect(updatedData.author).toBe(input.author);
       expect(repository.update).toHaveBeenCalled();
       expect(result).toEqual(updatedData);
 
