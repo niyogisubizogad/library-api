@@ -4,6 +4,11 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
+dotenv.config({
+  path: process.env.NODE_ENV === 'test'
+    ? '.env.test'
+    : '.env',
+});
 const development = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD || "",

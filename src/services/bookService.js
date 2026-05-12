@@ -5,7 +5,6 @@ import appError from "../utils/appError.js";
 
 const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
   const newBook = {
-  //  id: uuidv4(),
     title,
     author,
     isbn,
