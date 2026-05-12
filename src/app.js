@@ -17,10 +17,19 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 
-sequelize.authenticate()
-  .then(() => console.log('Database connected successfully'))
-  .catch((err) => console.error('Database connection failed:', err));
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connected");
 
+    await sequelize.sync();
 
+  
+  } catch (error) {
+    console.error("DB connection failed:", error);
+  }
+};
+
+startServer();
 
 export default app;
