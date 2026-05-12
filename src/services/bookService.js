@@ -5,7 +5,6 @@ import appError from "../utils/appError.js";
 
 const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
   const newBook = {
-  //  id: uuidv4(),
     title,
     author,
     isbn,
@@ -18,22 +17,26 @@ const createBook = async ({ title, author, isbn, genre, totalCopies }) => {
 };
 
 const getAllBooks = async (filters) => {
+    let books = await repository.findAll();
+if(filters !== undefined){
+
 const { genre, available } = filters;
 
-  let books = await repository.findAll();
   if (genre) {
-    books = books.filter(
-      (book) => book.genre.toLowerCase() == genre.toLowerCase(),
-    );
+    return books.filter(book => book.genre.toLowerCase() === genre.toLowerCase());
   }
   if (available === true) {
-    books = books.filter((book) => book.availableCopies > 0);
+    return books.filter(book => book.availableCopies > 0);
   }
+}
   return books;
 };
 
 const updateBook = async (id, data) => {
 const book = await repository.findById(id);
+if(!book){
+  throw new appError("Book Not Found",404);
+}
 
   if (data.totalCopies !== undefined) {
     const diff = data.totalCopies - book.totalCopies;
